@@ -1,0 +1,33 @@
+{
+	"name" : "zavrik/laravel-telegram",
+	"description" : "Laravel package for Telegram SDK",
+	"keywords" : [
+		"laravel",
+		"telegram"
+	],
+	"type" : "package",
+	"require" : {
+        "php": ">=7.3",
+        "irazasyed/telegram-bot-sdk": "^3.9"
+    },
+	"require-dev" : {
+	},
+	"license" : "MIT",
+	"authors" : [{
+		"name" : "Artem Zavrazhyn",
+		"email" : "arty.zavrik@gmail.com"
+    }],
+	"minimum-stability" : "dev",
+	"autoload" : {
+		"psr-4" : {
+			"Zavrik\\LaravelTelegram\\" : "src/"
+		}
+	},
+	"extra" : {
+		"laravel" : {
+			"providers" : [
+				"Zavrik\\LaravelTelegram\\LaravelTelegramServiceProvider"
+			]
+		}
+	}
+}
