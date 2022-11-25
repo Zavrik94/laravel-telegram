@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\HttpClients\HttpClientInterface;
+use Zavrik\LaravelTelegram\Services\TelegramBotService;
 use Zavrik\LaravelTelegram\Traits\Uuids;
 
 /**
@@ -61,6 +62,11 @@ class TelegramBot extends Model
     public function api(bool $async = false, ?HttpClientInterface $httpClientHandler = null): Api
     {
         return new Api($this->token, $async, $httpClientHandler);
+    }
+
+    public function service(): TelegramBotService
+    {
+        return new TelegramBotService($this);
     }
 
     public static function getByName(string $name): static

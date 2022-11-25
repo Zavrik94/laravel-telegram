@@ -22,4 +22,11 @@ class LaravelTelegramServiceProvider extends ServiceProvider
             ]);
         }
     }
+
+    public function register()
+    {
+        $this->publishes([
+            __DIR__.'/../config/telegram.php' => config_path('telegram.php'),
+        ]);
+    }
 }
