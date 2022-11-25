@@ -31,7 +31,7 @@ class TelegramBotService
         if ($certificatePath) {
             $params['certificate'] = $certificatePath;
         }
-        dd($params);
+
         return $this->bot->api()->setWebhook($params);
     }
 
@@ -97,5 +97,15 @@ class TelegramBotService
         return TelegramBot::query()
             ->where('name', $name)
             ->firstOrFail();
+    }
+
+    /**
+     * @param string $uuid
+     * @return TelegramBot
+     */
+    public static function findBotByUuid(string $uuid): Model
+    {
+        return TelegramBot::query()
+            ->find($uuid);
     }
 }
