@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Zavrik\LaravelTelegram\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Telegram\Bot\Api;
 use Telegram\Bot\Exceptions\TelegramSDKException;
 use Telegram\Bot\HttpClients\HttpClientInterface;
@@ -16,7 +18,7 @@ use Zavrik\LaravelTelegram\Traits\Uuids;
  * @property string $token
  * @property string $name
  * @property string $label
- *
+ * @property Collection $users
  */
 class TelegramBot extends Model
 {
@@ -71,6 +73,11 @@ class TelegramBot extends Model
 
     public static function getByName(string $name): static
     {
-        return static::where('name', $name)->first();
+        return static::where('name', $name)->with(['users'])->first();
+    }
+
+    public function users(): HasMany
+    {
+        return $this->hasMany(TelegramBotUser::class, 'bot_id');
     }
 }

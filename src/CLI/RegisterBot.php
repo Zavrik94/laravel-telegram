@@ -20,26 +20,23 @@ class RegisterBot extends Command
 
     public function handle()
     {
-        $bot = TelegramBotService::findBotByName('swd_alerts');
-//        dd($bot->service()->registerBotWebHook());
-        dd($bot->api()->getWebhookInfo());
-//        $name = null;
-//        while ($name === null) {
-//            $name = $this->ask('Write Bot Name');
-//        }
-//
-//        $title = $this->anticipate('Write Bot Title', [Str::title($name)], default: Str::title($name));
-//        $token = null;
-//        while ($token === null) {
-//            $token = $this->ask('Set Bot Token');
-//        }
-//        $bot = new TelegramBot([
-//            'name' => $name,
-//            'title' => $title,
-//            'token' => $token,
-//        ]);
-//        $bot->save();
-//
-//        $bot->service()->registerBotWebHook();
+        $name = null;
+        while ($name === null) {
+            $name = $this->ask('Write Bot Name');
+        }
+
+        $title = $this->anticipate('Write Bot Title', [Str::title($name)], default: Str::title($name));
+        $token = null;
+        while ($token === null) {
+            $token = $this->ask('Set Bot Token');
+        }
+        $bot = new TelegramBot([
+            'name' => $name,
+            'title' => $title,
+            'token' => $token,
+        ]);
+        $bot->save();
+
+        $bot->service()->registerBotWebHook();
     }
 }

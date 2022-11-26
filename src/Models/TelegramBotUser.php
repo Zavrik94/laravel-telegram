@@ -64,7 +64,7 @@ class TelegramBotUser extends Model
     {
         $userClass = config('telegram.user_model');
 
-        if (!($userClass instanceof TelegramUserInterface)) {
+        if (!in_array(TelegramUserInterface::class, class_implements($userClass))) {
             throw new Exception('User Model must implement ' . TelegramUserInterface::class);
         }
 

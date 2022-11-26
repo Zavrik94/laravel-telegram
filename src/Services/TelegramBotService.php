@@ -3,6 +3,7 @@
 namespace Zavrik\LaravelTelegram\Services;
 
 use App\Containers\AppSection\Telegram\Models\TelegramUser;
+use Exception;
 use Hashids;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -43,6 +44,15 @@ class TelegramBotService
         ]);
     }
 
+    public function sendHtmlMessage(int $telegramId, string $html): void
+    {
+        $this->bot->api()->sendMessage([
+            'chat_id' => $telegramId,
+            'text'  => $html,
+            'parse_mode' => 'html'
+        ]);
+    }
+
     public function createUser(int $telegramId): TelegramBotUser
     {
         $telegramUser = new TelegramBotUser([
@@ -55,14 +65,25 @@ class TelegramBotService
         return $telegramUser;
     }
 
-    public function setUserIdToTelegramUser(int $telegramId, array $userId): void
+    /**
+     * @param int $telegramId
+     * @param int $userId
+     * @return TelegramBotUser
+     * @throws Exception
+     */
+    public function setUserIdToTelegramUser(int $telegramId, int $userId): Model
     {
-        TelegramBotUser::query()
-            ->where('telegram_id', $telegramId)
-            ->where('bot_id', $this->bot->getKey())
-            ->update([
-                'user_id' => $userId
-            ]);
+        $telegramUser = $this->getUserByTelegramId($telegramId);
+
+        if ($telegramUser->user !== null) {
+            throw new Exception("User Already Logged In");
+        }
+
+        $telegramUser->update([
+            'user_id' => $userId
+        ]);
+
+        return $telegramUser;
     }
 
     /**
